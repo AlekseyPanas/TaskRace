@@ -14,7 +14,7 @@ class Game:
         for player in sorted(list(filter(lambda pl: pl.done, Constants.players)), key=lambda pl: pl.finish_time):
             player.draw(screen, draw_pos)
 
-            draw_pos += 30
+            draw_pos += 33
 
         # Draws the non-finished players next (filters them out) and then reverse sorts the list based on the
         # progress in the tasks
@@ -23,4 +23,4 @@ class Game:
             player.draw(screen, draw_pos)
             player.update()
 
-            draw_pos += 30
+            draw_pos += 33

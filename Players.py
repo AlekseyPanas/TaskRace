@@ -5,7 +5,7 @@ import random
 
 class Parent:
     def __init__(self, name):
-        # To make each entry in the list move switch positions gradually a velocity variable is used
+        # To make each entry in the list move switch positions gradually a velocity variable is used.
         self.velocity = 0
         self.pos = 0
         self.needed_pos = 0
@@ -19,27 +19,47 @@ class Parent:
         self.current_task_index = 0
         # Progress in current task.
         self.current_percent = 0
+        # Used to calculate player's place.
+        self.place = 0
+        # What to blit (Done vs not Done).
+        self.blitting_text = ""
+        # The combination of all text surfaces that will be drawn.
+        self.combined_surface = 0
 
     def update(self):
         pass
 
     def draw(self, screen, needed_pos):
-        # Checks if the entry needs to be moved
+        # Calculates the place of this player in the list.
+        self.place = int(needed_pos / 33) + 1
+
+        # Checks if the entry needs to be moved.
         if not needed_pos == self.pos:
             self.velocity = (needed_pos - self.pos) / 20
 
-        # Ends movement once done
+        # Ends movement once done.
         if math.fabs(needed_pos - self.pos) <= self.velocity * 2:
             self.pos = needed_pos
             self.velocity = 0
 
-        # Moves entry
+        # Moves entry.
         self.pos += self.velocity
 
-        screen.blit(Constants.helvetica_font.render(str(int(needed_pos / 30) + 1) + ". " + self.name + "   " + str(
-            "Done in " + str(self.finish_time) + "s" if self.done else Constants.tasks[
-                                                                           self.current_task_index] + " " + str(
-                self.current_percent) + "%  "), True, (255, 255, 255)), (10, self.pos))
+        self.blitting_text = Constants.combine_surfaces(
+            (Constants.arial_font.render("Done in ", True, (0, 255, 219)),
+             Constants.arial_font.render(str(self.finish_time) + "s", True, (0, 255, 0)))) if self.done else Constants.combine_surfaces((
+              Constants.arial_font.render(Constants.tasks[self.current_task_index] + " ", True, (255, 255, 255)),
+              Constants.arial_font.render(str(self.current_percent) + "%", True, (255, 255, 0))))
+
+        screen.blit(
+            Constants.combine_surfaces(
+                (Constants.helvetica_font.render(str(self.place) + ". ", True, (255, (255 / len(Constants.players)) * (len(Constants.players) - self.place), 0)),
+                 Constants.arial_black_font.render(self.name + "   ", True, (120, 200, (200 / len(Constants.players)) * (len(Constants.players) - self.place))),
+                 self.blitting_text)
+            ), (45, self.pos))
+
+        if self.place == 1:
+            screen.blit(Constants.crown_image, (2, self.pos - 5))
 
 
 class User(Parent):
@@ -130,10 +150,8 @@ class Player(Parent):
 
             # Calculates surge and adds it to deviation
             if random.randint(1, 100) <= self.surge:
-                print(self.name + " " + str(self.deviation))
                 self.deviation *= 1 + (self.surge_potency * Constants.decreasing_chance_randomizer(self.surge_decay, self.surge_init))
                 self.deviation *= -1 if self.deviation < 0 else 1
-                print(self.name + " " + str(self.deviation))
 
             # Counts the finish time in seconds until all tasks are done.
             self.finish_time += 1
