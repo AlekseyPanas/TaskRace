@@ -48,7 +48,7 @@ class Parent:
         self.blitting_text = Constants.combine_surfaces(
             (Constants.arial_font.render("Done in ", True, (0, 255, 219)),
              Constants.arial_font.render(str(self.finish_time) + "s", True, (0, 255, 0)))) if self.done else Constants.combine_surfaces((
-              Constants.arial_font.render(Constants.tasks[self.current_task_index] + " ", True, (255, 255, 255)),
+              Constants.arial_font.render(Constants.tasks[self.current_task_index] + " ", True, (255, 255 - ((250 / len(Constants.tasks)) * self.current_task_index), 255)),
               Constants.arial_font.render(str(self.current_percent) + "%", True, (255, 255, 0))))
 
         screen.blit(
@@ -117,16 +117,16 @@ class Player(Parent):
         self.deviation_init = deviation_init
         self.deviation = 0
         # The chance of being delayed in progress
-        self.choke = random.randint(1, 2) if choke is None else choke
+        self.choke = random.randint(1, 3) if choke is None else choke
         # The percent chance that the percent will surge forward.
-        self.surge = random.randint(1, 30) if surge is None else surge
+        self.surge = random.randint(1, 20) if surge is None else surge
         # The decay and the init % which is used to calculate the potency of the surge.
         self.surge_decay = surge_decay
         self.surge_init = surge_init
         # How potent the surge will be
         self.surge_potency = random.randint(1,3) / 10 if surge_potency is None else surge_potency
 
-        print(self.name + str(self.skill) + "  " + str(self.choke) + "  " + str(self.surge) + "  " + str(self.surge_potency))
+        #print(self.name + str(self.skill) + "  " + str(self.choke) + "  " + str(self.surge) + "  " + str(self.surge_potency))
 
     def update(self):
         # Converts to percent.
@@ -146,7 +146,7 @@ class Player(Parent):
             self.deviation *= -1 if random.choice([-1 for x in range(self.choke)] + [1]) == -1 else 1
 
             if self.skill[self.current_task_index] + self.deviation < 0:
-                self.deviation = self.skill[self.current_task_index] / -2
+                self.deviation = self.skill[self.current_task_index] / -1.2
 
             # Calculates surge and adds it to deviation
             if random.randint(1, 100) <= self.surge:

@@ -2,6 +2,7 @@ import Players
 import pygame
 import random
 import Game
+import math
 
 pygame.init()
 
@@ -13,17 +14,20 @@ class SkillLengthException(Exception):
 SCREEN_SIZE = (600, 700)
 
 # The tasks and their corresponding predicted completion time
-tasks = ["Wash Dishes", "Wash Floor", "Do Homework", "Go to bank"]
-task_times = [30, 50, 60, 30]
+tasks = ["Apworld", "Sassoon Poems"]
+task_times = [2800, 3000]
 
 crown_image = pygame.transform.scale(pygame.image.load("assets/crown.png"), (40, 40))
-logo_image = pygame.image.load("assets/logo.png")
+logo_image = pygame.image.load("assets/logo2.png")
+paused_image = pygame.transform.scale(pygame.image.load("assets/paused.png"), (310, 120))
 
 # Fonts.
 times_roman_font = pygame.font.SysFont("Time New Roman", 25)
 helvetica_font = pygame.font.SysFont("Helvetica", 28)
 arial_black_font = pygame.font.SysFont("Arial black", 25)
 arial_font = pygame.font.SysFont("Arial", 28)
+iso_font = pygame.font.SysFont("ISOCP", 31)
+algerian_font = pygame.font.SysFont("Algerian", 28)
 
 # is the program running
 running = True
@@ -92,6 +96,24 @@ def combine_surfaces(surfaces):
 
 
 # All the players
+'''players = [Players.User("Alex"),
+           Players.Player("VoidLord"),
+           Players.Player("Phantom"),
+           Players.Player("Carnivore"),
+           Players.Player("Predator"),
+           Players.Player("TalonFang"),
+           Players.Player("Volca"),
+           Players.Player("John Caplin"),
+           Players.Player("John Conner"),
+           Players.Player("Freddy"),
+           Players.Player("Ericson"),
+           Players.Player("Gargantuan", surge_potency=0.05 ,surge=1, deviation_init=100, deviation_decay=.999, choke=100, skill=[5.1 for y in range(len(tasks))]),
+           Players.Player("Venomous", skill=[float(random.randint(1, 60)) / 10 for z in range(len(tasks))]),
+           Players.Player("Rendro", surge=1, choke=10, skill=[float(random.randint(40, 60)) / 10 for x in range(len(tasks))]),
+           Players.Player("Archetype", surge=10, choke=3, skill=[6 for p in range(len(tasks))]),
+           Players.Player("Libros", deviation_init=80, deviation_decay=.99, surge_potency=0.1, surge_decay=.98,
+                          surge=50, choke=10, skill=[random.randint(5, 15) / 10 for n in range(len(tasks))])]'''
+
 players = [Players.User("Alex"),
            Players.Player("VoidLord"),
            Players.Player("Phantom"),
@@ -103,12 +125,11 @@ players = [Players.User("Alex"),
            Players.Player("John Conner"),
            Players.Player("Freddy"),
            Players.Player("Ericson"),
-           Players.Player("Gargantuan", skill=[5.1 for y in range(len(tasks))]),
-           Players.Player("Venomous", skill=[float(random.randint(1, 60)) / 10 for z in range(len(tasks))]),
-           Players.Player("Rendro", skill=[float(random.randint(40, 60)) / 10 for x in range(len(tasks))]),
-           Players.Player("Archetype", surge=10, choke=3, skill=[6 for p in range(len(tasks))]),
-           Players.Player("Libros", deviation_init=90, deviation_decay=.99, surge_potency=0.5, surge_decay=.999,
-                          surge=60, choke=1, skill=[.5 for n in range(len(tasks))])]
+           Players.Player("Arnold"),
+           Players.Player("Tangent", choke=2, skill=[float(math.fabs(math.tan(random.randint(1, 90)))) for x in range(len(tasks))]),
+           Players.Player("Ghostscar", choke=5, surge=3, surge_potency=0.5, skill=[decreasing_chance_randomizer(.995,100) / 10 for x in range(len(tasks))]),
+           Players.Player("Solaris", choke=5, skill=[random.randint(10,20) / 10 for x in range(len(tasks))])]
+
 
 greatest_name_length = 0
 for ply in players:
