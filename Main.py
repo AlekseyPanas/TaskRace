@@ -15,6 +15,7 @@ clock = pygame.time.Clock()
 Constants.crown_image = Constants.crown_image.convert_alpha()
 Constants.logo_image = Constants.logo_image.convert_alpha()
 Constants.paused_image = Constants.paused_image.convert_alpha()
+Constants.field_image = Constants.field_image.convert_alpha()
 
 last_fps_show = 0
 fps = 0
@@ -27,10 +28,14 @@ while Constants.running:
         if event.type == pygame.QUIT:
             Constants.running = False
         if event.type == pygame.KEYDOWN:
+            Constants.GAME.testfield.event_handler(event)
+
             if event.key == pygame.K_SPACE and not Constants.GAME.paused:
                 list(filter(lambda pl: pl.user, Constants.players))[0].event()
             if event.key == pygame.K_ESCAPE:
                 Constants.GAME.pausing = True
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            Constants.GAME.testfield.event_handler(event)
 
     # sets fps to a variable. can be set to caption any time for testing.
     last_fps_show += 1

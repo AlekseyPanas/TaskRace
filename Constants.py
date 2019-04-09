@@ -14,17 +14,19 @@ class SkillLengthException(Exception):
 SCREEN_SIZE = (600, 700)
 
 # The tasks and their corresponding predicted completion time
-tasks = ["Apworld", "Sassoon Poems"]
-task_times = [2800, 3000]
+tasks = ["Apworld", "English", "Italian"]
+task_times = [1500, 2500, 800]
 
 crown_image = pygame.transform.scale(pygame.image.load("assets/crown.png"), (40, 40))
 logo_image = pygame.image.load("assets/logo2.png")
 paused_image = pygame.transform.scale(pygame.image.load("assets/paused.png"), (310, 120))
+field_image = pygame.image.load("assets/field.png")
 
 # Fonts.
-times_roman_font = pygame.font.SysFont("Time New Roman", 25)
+times_roman_font = pygame.font.SysFont("Times New Roman", 25)
 helvetica_font = pygame.font.SysFont("Helvetica", 28)
 arial_black_font = pygame.font.SysFont("Arial black", 25)
+impact_font = pygame.font.SysFont("Impact", 50)
 arial_font = pygame.font.SysFont("Arial", 28)
 iso_font = pygame.font.SysFont("ISOCP", 31)
 algerian_font = pygame.font.SysFont("Algerian", 28)

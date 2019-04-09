@@ -2,6 +2,7 @@ import Constants
 import time
 import math
 import pygame
+import TypeField
 from PIL import Image, ImageFilter
 
 
@@ -28,6 +29,8 @@ class Game:
         # The paused image
         self.paused_image = Constants.paused_image
         self.paused_image_copy = None
+
+        self.testfield = TypeField.Field((250,620), 300)
 
     def game_handler(self, screen, visual):
         if self.paused:
@@ -125,3 +128,5 @@ class Game:
         # Draws total elapsed time
         screen.blit(Constants.combine_surfaces((Constants.algerian_font.render("Time: ", True, (165, 165, 165)),
                                                 Constants.iso_font.render(draw_text, True, (9, 255, 9)))), (7, 663))
+
+        self.testfield.draw_handler(screen)
